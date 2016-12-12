@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<display window-flags="sticky, below">
+  <!-- Based on Just An Icon v0.2 by Kevin Kane -->
+  <meta author="Samuel Longchamps"
+        version="0.1"
+        name="PLUS Tuto Desklet"
+	description="A launcher and indicator for the PLUS Tutorial Center (based on Just An Icon v0.2 by Kevin Kane)"
+        category="toolbar/launcher"
+        website="http://www.plus-us.gel.usherbrooke.ca/plustutodesklet"
+        license="LiliQ-P v1.1"
+        preview="res/icon.png"/>
+
+  <control id="sys" interface="ISystem:4i4p0jtvdz87qx44x2dm97ltj"/>
+  <control id="plustuto" interface="IPlusTuto:166i588qowpkx4ph008gpiz08-2"/>
+
+  <frame id="all" border-width="0,0,0,0">
+
+    <group id="main" width="100%" height="100%">
+      <image id="icon" uri="res/launcher.png" scale="1.0" anchor="center" x="50%" y="50%"
+              on-click="if (click_type == 's'): plustuto.launch_tuto_center"
+              on-doubleclick="if (click_type == 'd'): plustuto.launch_tuto_center"/>
+      <label id="legend" value="?" x="71%" y="72%" anchor="center" color="white"
+          font="Liberation Sans bold 18" wrap-at="99%" />
+    </group>
+    
+  </frame>
+  
+
+  <prefs callback="prefs_cb">
+    <page label="Icon / Launcher">
+      <uri label="Icon Image:" bind="icon_uri"/>
+      <integer label="Width:" min="10" max="1000" bind="width"/>
+      <integer label="Height:" min="10" max="1000" bind="height"/>
+      <integer label="Horizontal Buffer:" min="0" max="100" bind="xbuff" help="Empty area around the icon." />
+      <integer label="Vertical Buffer:" min="0" max="100" bind="ybuff" help="Empty area around the icon." />
+      <enum label="Action:" bind="click_type">
+        <item label="Single click" value="s" />
+        <item label="Double click" value="d" />
+      </enum>
+      <uri label="Command:" bind="launcher" />
+    </page>
+    <page label="Labels">
+      <string label="Legend:" bind="Dsp.legend.value"/>
+      <font label="Legend:" bind="Dsp.legend.font"/>
+      <color label="Legend:" bind="Dsp.legend.color"/>
+      <integer label="Horizontal Offset:" min="70" max="96" bind="xoff"/>
+      <integer label="Vertical Offset:" min="70" max="96" bind="yoff"/>
+      <boolean label="Visible:" bind="Dsp.legend.visible"/>
+    </page>
+  </prefs>
+
+
+  <script>
+    width = 96
+    height = 96
+  </script>
+
+  <script uri="Icon.script"/>
+
+  <script>
+    #<![CDATA[
+    
+    #(left, top, right, bottom)
+
+    icon_uri = "res/launcher.png"
+    
+    
+    def prefs_cb(key, value):
+        if (key == "width"):      set_icon_x(value)
+        if (key == "height"):     set_icon_y(value)
+        if (key == "icon_uri"):   set_icon(value)
+        if (key == "xoff"):       set_legend_x(value)
+        if (key == "yoff"):       set_legend_y(value)
+        if (key == "xbuff"):      set_x_buff(value)
+        if (key == "ybuff"):      set_y_buff(value)
+
+
+    set_icon(icon_uri)
+    
+    ]]>
+    
+    def update_tuto_num(new_value):
+         Dsp.legend.value = str(new_value)
+
+    plustuto.bind("tuto_num", update_tuto_num)
+    update_tuto_num(plustuto.tuto_num)
+  </script>
+
+</display>

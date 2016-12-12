@@ -1,0 +1,47 @@
+xoff = 50
+yoff = 50
+
+xbuff = 10
+ybuff = 10
+
+click_type = "s"
+
+launcher = "plustutocenter"
+
+
+def launch_it():
+    launch(launcher)
+
+
+def set_icon(value):
+    Dsp.icon.uri = value
+
+
+def set_icon_x(value):
+    Dsp.all.width = Unit(value + xbuff,PT)
+    Dsp.icon.width = Unit(value,PT)
+
+
+def set_icon_y(value):
+    Dsp.all.height = Unit(value + ybuff,PT)
+    Dsp.icon.height = Unit(value,PT)
+
+
+def set_x_buff(value):
+    Dsp.all.width = Unit(Dsp.icon.width.as_pt() + xbuff,PT)
+
+
+def set_y_buff(value):
+    Dsp.all.height = Unit(Dsp.icon.height.as_pt() + ybuff,PT)
+
+
+def set_legend_x(value):
+    Dsp.legend.x = Unit(value,PERCENT)
+
+
+def set_legend_y(value):
+    Dsp.legend.y = Unit(value,PERCENT)
+
+
+set_icon_x(width)
+set_icon_y(height)
